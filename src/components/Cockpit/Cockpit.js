@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useContext } from 'react';
 // import styled from 'styled-components';
 import classes from "./Cockpit.css";
+import AuthContext from '../../context/auth-context';
 
 
 // const StyledButton = styled.button`
@@ -17,8 +18,13 @@ import classes from "./Cockpit.css";
 
 const Cockpit = (props) => {
 
+    const toggleButtonRef = useRef(null);
+    const authContext = useContext(AuthContext);
+
     useEffect(() => {
         console.log('[Cockpit.js] rendering begins');
+        toggleButtonRef.current.click();
+
         return () => {
             alert('clean upppp')
         }
@@ -59,10 +65,14 @@ const Cockpit = (props) => {
     return (
         <div className={classes.Cockpit}>
             <button
+                ref={toggleButtonRef}
                 className={btnClass}
                 onClick={props.clicked}>
                 Click to show
             </button>
+            {/* <AuthContext.Consumer> */}
+            {<button onClick={authContext.login}>Login In</button>}
+            {/* </AuthContext.Consumer> */}
         </div>
     );
 }

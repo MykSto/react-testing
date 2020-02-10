@@ -7,8 +7,8 @@ class Persons extends Component {
 
     shouldComponentUpdate(nextProps, nextState) {
         console.log('[Person.js] shouldComponentUpdate');
-        if (nextProps.persons !== this.props.persons || 
-            nextProps.clicked !== this.props.clicked || 
+        if (nextProps.persons !== this.props.persons ||
+            nextProps.clicked !== this.props.clicked ||
             nextProps.changed !== this.props.changed) {
             return true;
         } else {
@@ -31,7 +31,7 @@ class Persons extends Component {
     }
 
     render() {
-        console.log('[Persons.js] rendering...')
+        console.log('[Persons.js] rendering...');
         return this.props.persons.map((person, index) => {
             return (
                 <Person

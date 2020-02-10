@@ -3,7 +3,8 @@ import classes from "./App.css";
 import Persons from "../components/Persons/Persons";
 import Cockpit from "../components/Cockpit/Cockpit";
 import withClass from "../hoc/withClass";
-import Auxiliary from "../hoc/Auxiliary"
+import Auxiliary from "../hoc/Auxiliary";
+import AuthContext from '../context/auth-context';
 
 const App = () => {
   const [state, setState] = useState({
@@ -14,7 +15,8 @@ const App = () => {
     ],
     showPerson: false,
     showButton: true,
-    changeCounter: 0
+    changeCounter: 0,
+    loggedIn: false,
   });
 
   // eslint-disable-next-line
@@ -69,18 +71,34 @@ const App = () => {
       persons={state.persons}
       clicked={deletePersonHandler}
       changed={changeNameHanderler}
+      isAuthenticated={state.loggedIn}
     />
+  }
+
+  const loginAuthHandler = () => {
+    setState(prevState =>({
+      ...prevState,
+      loggedIn: true,
+    }))
   }
 
   return (
     <Auxiliary>
       <button onClick={() => { setState({ showButton: false }) }}>Clean Button</button>
-      {state.showButton ? <Cockpit
-        showPerson={state.showPerson}
-        personsLength={state.persons.length}
-        clicked={showSomeContentHandler}
-      /> : null}
-      {persons}
+      <AuthContext.Provider value={{
+        ...state,
+        authenticated: state.loggedIn,
+        login: loginAuthHandler
+      }}
+      >
+        {state.showButton ? (
+          <Cockpit
+            showPerson={state.showPerson}
+            personsLength={state.persons.length}
+            clicked={showSomeContentHandler}
+          />) : null}
+        {persons}
+      </AuthContext.Provider>
     </Auxiliary>
   );
 };
